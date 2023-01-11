@@ -4,14 +4,8 @@ namespace CabInvoiceTest
 {
     public class Tests
     {
-        private InvoiceGenerator? invoice;
+        private InvoiceGenerator invoice;
         Ride ride = new(2.0, 5);
-
-        [SetUp]
-        public void Setup()
-        {
-        }
-
         private static IEnumerable<TestCaseData> MultipleRideTestCases()
         {
             Ride[] rides1 = { new Ride(2.0, 5), new Ride(0.2, 1), new Ride(0.1, 0.5) };
@@ -42,8 +36,8 @@ namespace CabInvoiceTest
         public void TestMultipleRides(double expected, Ride[] rides)
         {
             invoice = new InvoiceGenerator();
-            double fare = invoice.CalculateFare(rides);
-            Assert.AreEqual(expected, fare);
+            var result = invoice.CalculateFare(rides);
+            Assert.AreEqual(expected, result.totalFare);
         }
 
         [Test]
