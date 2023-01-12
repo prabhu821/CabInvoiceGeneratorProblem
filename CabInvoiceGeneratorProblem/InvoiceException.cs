@@ -11,7 +11,8 @@ namespace CabInvoiceGeneratorProblem
         private readonly ExceptionType errorType;
         public enum ExceptionType
         {
-            NULL_RIDES
+            NULL_RIDES,
+            INVALID_USER_ID
         }
 
         public ExceptionType ErrorType { get { return errorType; } }
