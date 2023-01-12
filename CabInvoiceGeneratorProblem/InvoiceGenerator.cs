@@ -2,22 +2,27 @@
 {
     public class InvoiceGenerator
     {
-        private readonly double minFare;
-        private readonly double costPerDistance;
-        private readonly double costPerMinute;
-
-        public InvoiceGenerator()
+        private double minFare;
+        private double costPerDistance;
+        private double costPerMinute;
+        public double CalculateFare(double distance, double time, bool isPremium = false)
         {
-            minFare = 5;
-            costPerDistance = 10;
-            costPerMinute = 1;
-        }
-        public double CalculateFare(double distance, double time)
-        {
+            if (isPremium)
+            {
+                minFare = 20;
+                costPerDistance = 15;
+                costPerMinute = 2;
+            }
+            else
+            {
+                minFare = 5;
+                costPerDistance = 10;
+                costPerMinute = 1;
+            }
             double totalFare = (distance * costPerDistance) + (time * costPerMinute);
             return Math.Max(totalFare, minFare);
         }
-        public (int noOfRides, double totalFare, double averageFare) CalculateFare(Ride[] rides)
+        public Invoice CalculateFare(Ride[] rides)
         {
             try
             {
@@ -25,8 +30,8 @@
                     throw new ArgumentNullException(nameof(rides));
                 double totalFare = 0;
                 foreach (Ride ride in rides)
-                    totalFare += CalculateFare(ride.Distance, ride.Time);
-                return (rides.Length, totalFare, totalFare / rides.Length);
+                    totalFare += CalculateFare(ride.Distance, ride.Time, ride.IsPremium);
+                return new Invoice(rides.Length, totalFare);
             }
             catch (ArgumentNullException)
             {

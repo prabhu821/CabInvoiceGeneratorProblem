@@ -5,14 +5,15 @@ namespace CabInvoiceTest
     public class Tests
     {
         private InvoiceGenerator invoice;
-        Ride ride = new(2.0, 5);
         private static IEnumerable<TestCaseData> MultipleRideTestCases()
         {
             Ride[] rides1 = { new Ride(2.0, 5), new Ride(0.2, 1), new Ride(0.1, 0.5) };
             Ride[] rides2 = { new Ride(2.0, 5), new Ride(0.2, 1) };
+            Ride[] rides3 = { new Ride(2.0, 5, true), new Ride(0.2, 1, true), new Ride(0.1, 0.5) };
 
             yield return new TestCaseData(35, rides1);
             yield return new TestCaseData(30, rides2);
+            yield return new TestCaseData(65, rides3);
         }
 
         private static IEnumerable<TestCaseData> MultipleRideExceptionTestCases()
@@ -37,7 +38,7 @@ namespace CabInvoiceTest
         {
             invoice = new InvoiceGenerator();
             var result = invoice.CalculateFare(rides);
-            Assert.AreEqual(expected, result.totalFare);
+            Assert.AreEqual(expected, result.TotalFare);
         }
 
         [Test]
